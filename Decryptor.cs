@@ -10,7 +10,6 @@ namespace CanSatLogsDecryptor
 {
     public class Decrpytor
     {
-
         private readonly PacketBuffer packetBuffer = new();
 
         public void Decryptor(string filepath, string outputFile)
@@ -31,7 +30,11 @@ namespace CanSatLogsDecryptor
                     Console.WriteLine("Invalid packet");
                     continue;
                 }
-                if (packet.Payload == null || packet.Payload.Value == null || packet.Payload.Value.Length == 0)
+                if (
+                    packet.Payload == null
+                    || packet.Payload.Value == null
+                    || packet.Payload.Value.Length == 0
+                )
                 {
                     Console.WriteLine("Empty payload");
                     continue;
@@ -51,7 +54,8 @@ namespace CanSatLogsDecryptor
                         data = System.Text.Encoding.ASCII.GetString(packet.Payload.Value);
                         break;
                     case DeviceId.GPS:
-                        data = $"{BitConverter.ToDouble(packet.Payload.Value, 0)}, {BitConverter.ToDouble(packet.Payload.Value, 8)}, {BitConverter.ToSingle(packet.Payload.Value, 16)}";
+                        data =
+                            $"{BitConverter.ToDouble(packet.Payload.Value, 0)}, {BitConverter.ToDouble(packet.Payload.Value, 8)}, {BitConverter.ToSingle(packet.Payload.Value, 16)}";
                         break;
                     default:
                         data = "Unknown device";

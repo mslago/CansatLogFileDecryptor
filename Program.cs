@@ -1,5 +1,5 @@
-﻿using Orbipacket;
-using CanSatLogsDecryptor;
+﻿using CanSatLogsDecryptor;
+using Orbipacket;
 
 namespace CanSatLogsDecryptor
 {
@@ -13,9 +13,8 @@ namespace CanSatLogsDecryptor
                 Console.WriteLine("Please provide a file path as an argument.");
                 return;
             }
-            CanSatLogsDecryptor.Decrpytor decryptor = new();
+            Decrpytor decryptor = new();
             decryptor.Decryptor(filepath, $"{filepath}-DECRYPTED.txt");
-
         }
     }
 }
