@@ -1,5 +1,5 @@
 ﻿# Simple CanSat Log File Decrpytor
-This log file decryptor is designed to decrypt and generate readable log files from CanSat offline logs.
+This log file decryptor is designed to decrypt and generate readable log files from OrbiSat Oeiras CanSat offline logs.
 Not only it removes the COBS encoding, but also formats the data for each DeviceId corresponding to its type.
 
 ## Usage
