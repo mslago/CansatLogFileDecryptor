@@ -21,7 +21,6 @@ namespace CanSatLogsDecryptor
 
             while ((extractedPacket = packetBuffer.ExtractFirstValidPacket()) != null)
             {
-                Console.WriteLine("Extracted packet: " + BitConverter.ToString(extractedPacket));
                 Packet? packet = Decode.GetPacketInformation(extractedPacket);
                 if (packet == null)
                 {
