@@ -23,8 +23,6 @@ namespace CanSatLogsDecryptor
             {
                 Console.WriteLine("Extracted packet: " + BitConverter.ToString(extractedPacket));
                 Packet? packet = Decode.GetPacketInformation(extractedPacket);
-
-                string data;
                 if (packet == null)
                 {
                     Console.WriteLine("Invalid packet");
@@ -39,28 +37,23 @@ namespace CanSatLogsDecryptor
                     Console.WriteLine("Empty payload");
                     continue;
                 }
-                switch (packet.DeviceId)
+
+                string data = packet.DeviceId switch
                 {
-                    case DeviceId.PressureSensor:
-                        data = BitConverter.ToSingle(packet.Payload.Value, 0).ToString();
-                        break;
-                    case DeviceId.TemperatureSensor:
-                        data = BitConverter.ToSingle(packet.Payload.Value, 0).ToString();
-                        break;
-                    case DeviceId.HumiditySensor:
-                        data = BitConverter.ToSingle(packet.Payload.Value, 0).ToString();
-                        break;
-                    case DeviceId.System:
-                        data = System.Text.Encoding.ASCII.GetString(packet.Payload.Value);
-                        break;
-                    case DeviceId.GPS:
-                        data =
-                            $"{BitConverter.ToDouble(packet.Payload.Value, 0)}, {BitConverter.ToDouble(packet.Payload.Value, 8)}, {BitConverter.ToSingle(packet.Payload.Value, 16)}";
-                        break;
-                    default:
-                        data = "Unknown device";
-                        break;
-                }
+                    DeviceId.PressureSensor => BitConverter
+                        .ToSingle(packet.Payload.Value, 0)
+                        .ToString(),
+                    DeviceId.TemperatureSensor => BitConverter
+                        .ToSingle(packet.Payload.Value, 0)
+                        .ToString(),
+                    DeviceId.HumiditySensor => BitConverter
+                        .ToSingle(packet.Payload.Value, 0)
+                        .ToString(),
+                    DeviceId.System => System.Text.Encoding.ASCII.GetString(packet.Payload.Value),
+                    DeviceId.GPS =>
+                        $"{BitConverter.ToDouble(packet.Payload.Value, 0)}, {BitConverter.ToDouble(packet.Payload.Value, 8)}, {BitConverter.ToSingle(packet.Payload.Value, 16)}",
+                    _ => "Unknown device",
+                };
                 Console.WriteLine($"Device: {packet.DeviceId}, Data: {data}");
                 string outputLine = $"{packet.DeviceId}, @{packet.Timestamp}, {data}\n";
                 File.AppendAllText(outputFile, outputLine);
